@@ -1,2 +1,4 @@
 # Summer-Holidays
-Testing Repo
+Ini Project Bot Ku Yang Bernama Summer Holidays
+Mau COllab Jadinya Ku Buat Wkwkwkkw
+
