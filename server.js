@@ -58,8 +58,8 @@ bot.command({
 
 bot.command({
   name: "neko",
-  code: `$title[Neko Lewd Image :cat:]
-  $image[$randomText[https://cdn.nekos.life/lewd/lewd_neko012.jpg;https://cdn.nekos.life/lewd/lewd_neko503.jpeg;https://cdn.nekos.life/lewd/lewd_neko028.png;https://cdn.nekos.life/lewd/lewd_neko029.png;https://cdn.nekos.life/lewd/lewd_neko510.jpeg;https://cdn.nekos.life/lewd/lewd_neko_301.jpg;https://cdn.nekos.life/lewd/lewd_neko$random[01;600].png]]
+  code: `$title[Neko NSFW GIF :cat:]
+  $image[$jsonRequest[https://nekos.life/api/v2/img/nsfw_neko_gif;url]]
   $footer[SWAT Home Coming XD]
   $addTimestamp
   $color[RANDOM]
