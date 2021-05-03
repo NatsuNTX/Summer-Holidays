@@ -1,10 +1,10 @@
 {
   "Server1": [{
-    "host": "127.0.0.1",
-    "name": "Local Server",
-    "port": 8823,
+    "host": "Server Host",
+    "name": "Server Name",
+    "port": 0000,
     "secure": false,
-    "auth": "summer"
+    "auth": "PASSWORD"
   }],
   "serverOptions": {
     "moveOnDisconnect": false,
