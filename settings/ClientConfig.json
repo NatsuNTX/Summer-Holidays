@@ -1,0 +1,10 @@
+{
+  "ClientOptions": {
+    "messageCacheMaxSize": 340,
+    "messageCacheLifetime": 140,
+    "messageSweepInterval": 60,
+    "restWsBridgeTimeout": 4500,
+    "restRequestTimeout": 8000,
+    "retryLimit": 5
+  }
+}

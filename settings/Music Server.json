@@ -1,0 +1,17 @@
+{
+  "Server1": [{
+    "host": "127.0.0.1",
+    "name": "Local Server",
+    "port": 8823,
+    "secure": false,
+    "auth": "summer"
+  }],
+  "serverOptions": {
+    "moveOnDisconnect": false,
+    "reconnectInterval": 25000,
+    "reconnectTries": 120,
+    "restTimeout": 25000,
+    "userAgent": "Summer-Bot (NTX V1.5.0)"
+  },
+  "playerEnds": "Thanks For Using Summer to Play Your Favorite Music on Discord!"
+}
