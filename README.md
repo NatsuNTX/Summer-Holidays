@@ -13,3 +13,5 @@ Currently, this bot project is Under development<br>
 ## Know BUG
 Some Module have very-VERY long delay to load<br>
 ### Preview
+![First Join](https://raw.githubusercontent.com/NatsuNTX/Summer-Holidays/main/preview/Join.png)
+![Play_Music](https://raw.githubusercontent.com/NatsuNTX/Summer-Holidays/main/preview/Music.png)
