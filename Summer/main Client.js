@@ -1,44 +1,34 @@
 /* Class Client, Ini Di mana Yang Berfungsi sebagai start Point */
 
 //Masukin Library Yang Di Perlukan
-const {Server1, serverOptions} = require('../settings/Music Server.json');
-const {Client} = require('discord.js'); //Discord.js Library (Ambil Class Client, because that what we need to build first)
-const clr = require('chalk'); //Ngasi Warna ke Console
-const eventsHandler = require('../supports/events/Events Handlers');
-const commandHandler = require('../supports/commands/Command Handler');
-const summerPlayerNode = require('../supports/Music Player/PlayerNodes');
+const {Client} = require('discord.js');
+const {summerEvents} = require('../supports/events/Events Handlers');
+const summerCommands = require('../supports/commands/Command Handler');
 const db = require('../supports/database/databaseHandler');
+const summerPlayerNode = require('../supports/Music Player/PlayerNodes');
 const summerPlayerManager = require('../supports/Music Player/Player Manager');
 const summerPlayerControls = require('../supports/Music Player/Controls/Player Controls');
+const {BotActivity} = require('./Activity/Summer Activity');
+const {Server1, serverOptions} = require('../settings/Music Server.json');
 
 
-class summerNTX extends Client {
-    /**
-     * Main Files
-     * @param DiscordToken Bot Token dari Discord.com/developer
-     * @param ClientOpts Client Options Baca di discord.js.org kategori client
-     */
-    constructor(DiscordToken, ClientOpts) {
-        super(ClientOpts);
+class Summer extends Client {
+    constructor(Bot_Token, clientOpts) {
+        super(clientOpts);
 
-        this.Botkeys = DiscordToken;
-        this.loadOptionalScript().catch(err => console.error(err)) //Jalankan Metode ini Ketika Client di Panggil
+        this.tkn = Bot_Token;
+        this.ConnectToDiscord().catch(err => console.error(err));
     }
-    async loadOptionalScript() {
-        await this.login(this.Botkeys); //Login Function
-        this.playerNode = new summerPlayerNode(this, Server1, serverOptions);
-        await eventsHandler(this); //Event Handler
-        this.playerControls = new summerPlayerControls(this);
-        new commandHandler(this);
+    async ConnectToDiscord() {
+        await this.login(this.tkn);
+        new summerEvents(this);
+        new summerCommands(this);
+        db();
+        await BotActivity(this);
+        /* Lavalink Server */
         this.pManager = new summerPlayerManager(this);
-        this.Botinfo //Method Below
-        db() //DataBase
-    }
-
-    get Botinfo() {
-        console.log(clr.cyan(`Summer Bot is Login as [${this.user.username}]`));
+        this.pControls = new summerPlayerControls(this);
+        this.playerNode = new summerPlayerNode(this, Server1, serverOptions);
     }
 }
-
-//Export the Class (Biar bisa di Akses dari luar, jangan lupa pelajaran Object Oriented Programming A.K.A OOP)
-module.exports = summerNTX
+module.exports = Summer;

@@ -6,6 +6,6 @@ module.exports = {
     categories: "music",
     async execute(msg, args) {
         const keyWord = args.join(" ");
-        await msg.client.playerControls.PlayMusic(keyWord, msg);
+        await msg.client.pControls.PlayMusic(keyWord, msg);
     }
 }

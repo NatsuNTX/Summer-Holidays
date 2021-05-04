@@ -1,10 +1,9 @@
 //Import Stuff
-const {promisify} = require('util');
 const clr = require('chalk');
+const {readdir} = require('fs');
 const sEmbed = require('../embed/embed Files');
 const { UNKNOWN_COMMANDS } = require('../../settings/Gif Expression.json');
 const {Collection} = require('discord.js'); //Discord.js Mapper
-const readSubDir = promisify(require('fs').readdir); //Biar ngak terlalu repot dengan callback, jadi pakai promise
 const {cmdCategory} = require('./Commands Category.json')
 
 class summerCommands {
@@ -17,6 +16,19 @@ class summerCommands {
     }
 
     async loadCommandsFiles() {
+        for (let subDir of cmdCategory) {
+            readdir(`./commands/${subDir}/`, {encoding:"utf-8"}, (err, sDir) => {
+                if(err) return console.error(clr.red(`Found Error while Opening Sub-Directory\\n Error:${err}`));
+                for(let files of sDir) {
+                    if(!files.endsWith('.js')) return;
+                    const cmdFunction = require(`../../commands/${subDir}/${files}`);
+                    if(cmdFunction.disable) return;
+                    this.summer.collection.set(cmdFunction.name, cmdFunction);
+                    console.log(clr.cyan(`Loading Commands [${cmdFunction.name}]`));
+                }
+            })
+        }
+        /*
         //Loop Setiap SubDir
         for (const subDir of cmdCategory) {
             const sDir = await readSubDir(`./commands/${subDir}/`).catch(e => console.error(clr.red(`Found Error while Opening Sub-Directory\n Error:${e}`)));
@@ -33,6 +45,8 @@ class summerCommands {
                 console.log(clr.cyan(`Loading Commands [${cmdFunction.name}]`));
             }
         }
+
+         */
     }
     async executeCommands() {
         this.summer.on('message', msg => {

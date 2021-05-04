@@ -42,7 +42,7 @@ class summerPlayerBackend {
         //Ketika Finish
         this.player.on("end", () => {
             this.message.messages.delete(this.tempEmbed[0]);
-            this.playTracks().catch(err => {
+            this.playTheTracks().catch(err => {
                 //Jika Terjadi Sesuatu Maka Matikan Player
                 this.queue.length = 0;
                 this.stopPlayer();
