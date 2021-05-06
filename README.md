@@ -10,8 +10,9 @@ This is our bot project called Summer Holidays
 
 ## Status
 Currently, this bot project is Under development<br>
+Moving Commands from Old to the New One (Not All commands from the [old one](https://github.com/Abu-botdev/Summer-Holidays/blob/main/server.js) is moving due the old Script it's too messy that i can't even understand what's going on at behind the schene)
 ## Know BUG
-~~Some Module have very-VERY long delay to load~~**[Fixed!]**<br>
+~~Some Module have very-VERY long delay to load~~ **[Fixed!]**<br>
 ### Preview
 ![Activity](https://raw.githubusercontent.com/NatsuNTX/Summer-Holidays/main/preview/Activity.png)
 ![First Join](https://raw.githubusercontent.com/NatsuNTX/Summer-Holidays/main/preview/Join.png)
