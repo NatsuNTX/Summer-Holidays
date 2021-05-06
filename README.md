@@ -9,7 +9,7 @@ Our bot name is Summer Holidays
 This is our bot project called Summer Holidays
 
 ## Status
-Currently, this bot project is Under development<br>
+This is NTX Version of Summer Bot, [Click Here](https://github.com/Abu-botdev/Summer-Holidays/) to Go to Original Version<br>
 Moving Commands from Old to the New One (Not All commands from the [old one](https://github.com/Abu-botdev/Summer-Holidays/blob/main/server.js) is moving due the old Script it's too messy that i can't even understand what's going on at behind the schene)
 ## Know BUG
 ~~Some Module have very-VERY long delay to load~~ **[Fixed!]**<br>
