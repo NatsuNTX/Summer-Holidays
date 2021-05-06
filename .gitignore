@@ -105,3 +105,4 @@ dist
 
 # Remove .idea Folder
 .idea
+/lavalink/

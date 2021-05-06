@@ -4,7 +4,9 @@ const {readdir} = require('fs');
 const sEmbed = require('../embed/embed Files');
 const { UNKNOWN_COMMANDS } = require('../../settings/Gif Expression.json');
 const {Collection} = require('discord.js'); //Discord.js Mapper
-const {cmdCategory} = require('./Commands Category.json')
+const {cmdCategory} = require('./Commands Category.json');
+const getDataHandler = require('../database/Get Data Handler');
+const db = new getDataHandler();
 
 class summerCommands {
     constructor(Client) {
@@ -49,9 +51,9 @@ class summerCommands {
          */
     }
     async executeCommands() {
-        this.summer.on('message', msg => {
+        this.summer.on('message', async msg => {
             //Bot Prefix
-            const B_prefix = process.env.PREFIX
+            const B_prefix = await db.customPrefix(msg.guild.id) ? await db.customPrefix(msg.guild.id) : process.env.PREFIX
             //Kita Mau agar bot Respon ketika di mention tapi ngak respon dengan @everyone atau @here
             //dan pastikan bot tidak respon dengan bot lain
             if(msg.mentions.has(this.summer.user.id) && !msg.content.includes('@here') && !msg.content.includes('@everyone')) return msg.channel.send(`${msg.author} My Prefix is ***${B_prefix}*** if you need to know what i can do Please type ***${B_prefix}help***`);

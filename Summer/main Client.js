@@ -8,8 +8,12 @@ const db = require('../supports/database/databaseHandler');
 const summerPlayerNode = require('../supports/Music Player/PlayerNodes');
 const summerPlayerManager = require('../supports/Music Player/Player Manager');
 const summerPlayerControls = require('../supports/Music Player/Controls/Player Controls');
+const summerActionCenter = require('../supports/moderation/summer Action Center');
 const {BotActivity} = require('./Activity/Summer Activity');
 const {Server1, serverOptions} = require('../settings/Music Server.json');
+
+/* Test Subject */
+const exitHandler = require('../supports/user Interuption/catch SIGINT');
 
 
 class Summer extends Client {
@@ -21,10 +25,15 @@ class Summer extends Client {
     }
     async ConnectToDiscord() {
         await this.login(this.tkn);
+        exitHandler(this);
         new summerEvents(this);
         new summerCommands(this);
         db();
         await BotActivity(this);
+
+        /* Action Center */
+        this.sAction = new summerActionCenter();
+
         /* Lavalink Server */
         this.pManager = new summerPlayerManager(this);
         this.pControls = new summerPlayerControls(this);

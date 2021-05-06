@@ -1,6 +1,6 @@
 {
   "name": "summer-bot",
-  "version": "1.5.0",
+  "version": "1.5.0 NTX",
   "description": "summer bot holidays (natsu rewrite)",
   "main": "server.js",
   "scripts": {
@@ -19,6 +19,8 @@
   "homepage": "https://github.com/Abu-botdev/Summer-Holidays#readme",
   "dependencies": {
     "@discordjs/opus": "^0.5.0",
+    "audio-loader": "^1.0.3",
+    "audio-play": "^2.3.1",
     "bufferutil": "^4.0.3",
     "chalk": "^3.0.0",
     "discord.js": "^12.5.3",

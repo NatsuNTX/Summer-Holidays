@@ -91,7 +91,7 @@ class summerPlayerBackend {
         this.player.disconnect();
         this.client.pManager.delete(this.guild.id);
         //Kirim Pesan Selesai
-        this.message.send(playerEnds);
+        this.message.send(playerEnds).then(c => c.delete({timeout: 4500}));
     }
 }
 module.exports = summerPlayerBackend

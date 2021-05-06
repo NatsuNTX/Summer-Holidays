@@ -19,7 +19,19 @@ class summerPlayerControls {
 
         //Cek Apakah User sudah tersambung ke dalam voice channel terlebih dahulu
         if (!this.msg.member.voice.channel) return this.msg.channel.send(`${this.msg.author}***You Need to Join to The Voice Channel First Before Running This Commands!***`);
-        if (!this.tracks) return this.msg.channel.send(`${this.msg.author}***Please Tell Me the Song name or the Link***`);
+        if (!this.tracks) {
+            const guildPlayer = this.msg.client.pManager.get(this.msg.guild.id);
+            if(!guildPlayer) {
+                return this.msg.channel.send(`${this.msg.author}***Please Tell Me the Song name or the Link***`);
+            } else {
+                if(guildPlayer.player.paused === false) {
+                    return this.msg.channel.send(`${this.msg.author}***Please Tell Me the Song name or the Link***`);
+                } else {
+                    await guildPlayer.player.setPaused(false);
+                    return this.msg.channel.send(`:arrow_forward: ***Resuming Player***`).then(c => c.delete({timeout: 4500}));
+                }
+            }
+        }
 
         //Cek jika input nya adalah sebuah link
         //atau bukan
@@ -59,7 +71,7 @@ class summerPlayerControls {
             if (type === "PLAYLIST") {
                 for (let l of tracks) await this.summer.pManager.playerHandlers(this.msg, L_node, l);
             }
-            await this.msg.channel.send(type === "PLAYLIST" ? `:white_check_mark: Added Playlist **${playlistName}** to the Queue!` : `:white_check_mark: Added **${firstTracks.info.title}** to the queue!`).then(c => c.delete({timeout: 4500}));
+            this.msg.channel.send(type === "PLAYLIST" ? `:white_check_mark: Added Playlist **${playlistName}** to the Queue!` : `:white_check_mark: Added **${firstTracks.info.title}** to the queue!`).then(c => c.delete({timeout: 4500}));
             //Terahir Mainkan
             if (p_Handle) return p_Handle.playTheTracks();
         } else {
@@ -75,6 +87,63 @@ class summerPlayerControls {
             if (p_Handle) return p_Handle.playTheTracks();
         }
     }
-}
+    async stopMusic(message,LavaPlayer, GuildID) {
+        this.L_Player = LavaPlayer;
+        this.guild = GuildID;
+        this.msg = message;
 
+        //Cek Jika User sudah ada di Voice Channel
+        if (!this.msg.member.voice.channel) return this.msg.channel.send(`${this.msg.author}***You Need to Join to The Voice Channel First Before Running This Commands!***`);
+
+        const players = this.L_Player.get(this.guild);
+        //Jika User Menjalankan command Stop tapi Bot Belum Terkonek ke Voice Channel
+        //maka Bilang bahwa command stop hanya bisa di jalankan ketika player sedang memainkan sesuatu
+        if(!players) return this.msg.channel.send(`Ahh.... Theirs nothing that currently Playing!`);
+
+        //Jika User Menjalankan Command Tapi terhubung dengan voice Channel yang berbeda dari
+        //Bot yang tersambung maka Tolak
+        if (players.player.voiceConnection.voiceChannelID !== this.msg.member.voice.channelID) return this.msg.channel.send("**You Need to be In the Same Voice Channel!**");
+
+        this.msg.channel.send(`:stop_button: ***Stopping ${players.currentTrack.info.title}***`).then(c => c.delete({timeout:4500}));
+        //Hapus Semua Track List Dari Queue
+        players.queue.length = 0
+        await players.player.stopTrack();
+    }
+    async skipMusic(message, LavaPlayer, GuildID) {
+        this.L_Player = LavaPlayer;
+        this.msg = message;
+        this.guild = GuildID;
+
+        //Cek Jika User sudah ada di Voice Channel
+        if (!this.msg.member.voice.channel) return this.msg.channel.send(`${this.msg.author}***You Need to Join to The Voice Channel First Before Running This Commands!***`);
+        const players = this.L_Player.get(this.guild);
+        if(!players) return this.msg.channel.send(`Ahh.... Theirs nothing that currently Playing!`);
+
+        //Jika User Menjalankan Command Tapi terhubung dengan voice Channel yang berbeda dari
+        //Bot yang tersambung maka Tolak
+        if (players.player.voiceConnection.voiceChannelID !== this.msg.member.voice.channelID) return this.msg.channel.send("**You Need to be In the Same Voice Channel!**");
+
+        this.msg.channel.send(`:next_track: ***Skipping ${players.currentTrack.info.title}***`).then(c => c.delete({timeout:4500}));
+        await players.player.stopTrack();
+    }
+    async pauseMusic(message,GuildID) {
+        this.msg = message;
+        this.guild = GuildID;
+
+        //Cek Jika User sudah ada di Voice Channel
+        if (!this.msg.member.voice.channel) return this.msg.channel.send(`${this.msg.author}***You Need to Join to The Voice Channel First Before Running This Commands!***`);
+        const players = this.msg.client.pManager.get(this.guild);
+        if(!players) return this.msg.channel.send(`Ahh.... Theirs nothing that currently Playing!`);
+
+        //Jika User Menjalankan Command Tapi terhubung dengan voice Channel yang berbeda dari
+        //Bot yang tersambung maka Tolak
+        if (players.player.voiceConnection.voiceChannelID !== this.msg.member.voice.channelID) return this.msg.channel.send("**You Need to be In the Same Voice Channel!**");
+        if(players.player.paused) {
+            return this.msg.channel.send(`${this.msg.author} I Can't Do that Because the Player is Already Pause!`)
+        }
+        players.player.setPaused(true).then(() => {
+            return this.msg.channel.send(`:pause_button: ***Player Has Been Pause!, Please Type "play" to resume!***`).then(c => c.delete({timeout: 4500}))
+        });
+    }
+}
 module.exports = summerPlayerControls
