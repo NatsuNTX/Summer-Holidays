@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node --expose-gc server.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
     "find-process": "^1.4.4",
     "libsodium-wrappers": "^0.7.9",
     "mongoose": "^5.12.7",
+    "mtrace": "^1.0.6",
     "nodemon": "^2.0.7",
     "shoukaku": "github:Deivu/Shoukaku",
     "utf-8-validate": "^5.0.4",
