@@ -2,9 +2,11 @@
 const clr = require('chalk');
 const mongoose = require('mongoose');
 
+/* [Wait Until I Found Stop Sound]
 //Audio Loader
 const aLoad = require('audio-loader');
 const aPlay = require('audio-play');
+ */
 
 function userInterrupt(Client) {
     this.summer = Client;
@@ -17,34 +19,35 @@ function userInterrupt(Client) {
             if (this.summer.playerNode.players) {
                 this.summer.playerNode.players.forEach(p => {
                     p.stopTrack().then(() => p.disconnect());
-                    //Disconnect Database Connection
-                    mongoose.disconnect().then(()  => {
-                        //Destroy The Client
-                        this.summer.destroy();
-                        //Play Bye Sounds
-                        console.log(clr.cyan('Bye!'));
-                        aLoad('./assets/audio/bye.wav').then(aPlay);
-                        setTimeout(() => {
-                            //End the Process
-                            process.exit();
-                        }, 1500);
-                    });
+                    //Just Disconnect From Database and Discord
+                    //and the End
+                    DisconnectEverything(this.summer);
                 });
             }
-            //Disconnect Database Connection
-            mongoose.disconnect().then(() => {
-                //Destroy The Client
-                this.summer.destroy();
-                //Play Bye Sounds
-                console.log(clr.cyan('Bye!'));
-                aLoad('./assets/audio/bye.wav').then(aPlay);
-                setTimeout(() => {
-                    //End the Process
-                    process.exit();
-                }, 1500);
-            });
+            DisconnectEverything(this.summer);
+        });
+    }
+    if (process.platform === 'linux') {
+        process.on("SIGINT", () => {
+            if (this.summer.playerNode.players) {
+                this.summer.playerNode.players.forEach(p => {
+                    p.stopTrack().then(() => p.disconnect());
+                    DisconnectEverything(this.summer);
+                });
+            }
+            DisconnectEverything(this.summer);
         });
     }
 }
+
+    function DisconnectEverything(Client) {
+    mongoose.disconnect().then(() => {
+        Client.destroy();
+        console.log(clr.cyan("Bye!"));
+        setTimeout(() => {
+            process.exit();
+        }, 2500);
+    });
+    }
 
 module.exports = userInterrupt;

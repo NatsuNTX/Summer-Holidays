@@ -1,6 +1,6 @@
 {
   "name": "summer-bot",
-  "version": "1.5.0 NTX",
+  "version": "1.8.0 NTX",
   "description": "summer bot holidays (natsu rewrite)",
   "main": "server.js",
   "scripts": {
@@ -26,6 +26,7 @@
     "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
     "erlpack": "github:discord/erlpack",
+    "find-process": "^1.4.4",
     "libsodium-wrappers": "^0.7.9",
     "mongoose": "^5.12.7",
     "nodemon": "^2.0.7",

@@ -14,7 +14,7 @@ class summerPlayerBackend {
         this.message = opts.message;
         this.authorMessage = opts.authorMessage;
         this.currentTrack = null;
-        this.tempEmbed = [];
+        this.playingEmbed = [];
 
         //Ketika Musik di mainkan
         this.player.on('start', () => {
@@ -37,11 +37,11 @@ class summerPlayerBackend {
                 },
                 image: {url: PLAYING_MUSIC}
             });
-            this.message.send(startPlay).then(c => this.tempEmbed[0] = c);
+            this.message.send(startPlay).then(c => this.playingEmbed[0] = c);
         });
         //Ketika Finish
         this.player.on("end", () => {
-            this.message.messages.delete(this.tempEmbed[0]);
+            this.message.messages.delete(this.playingEmbed[0]);
             this.playTheTracks().catch(err => {
                 //Jika Terjadi Sesuatu Maka Matikan Player
                 this.queue.length = 0;

@@ -65,7 +65,7 @@ class summerCommands {
             const cmdName = args.shift().toLowerCase();
 
             //Ambil nama command berserta function yang udh tersimpan di map
-            const commands = this.summer.collection.get(cmdName) || this.summer.collection.find(shrt => shrt.shortName && shrt.shortName.includes(cmdName));
+            const commands = this.summer.collection.get(cmdName) || this.summer.collection.find(shrt => shrt.shortname && shrt.shortname.includes(cmdName));
 
             //Jika command tidak ada di map, maka bilang bahwa command tersebut tidak ada
             if(!commands) {

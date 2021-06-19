@@ -145,5 +145,26 @@ class summerPlayerControls {
             return this.msg.channel.send(`:pause_button: ***Player Has Been Pause!, Please Type "play" to resume!***`).then(c => c.delete({timeout: 4500}))
         });
     }
+    async PlayerVolume(message, volume) {
+        this.msg = message;
+        this.guild = message.guild.id;
+        this.vol = volume;
+
+        //Cek Jika User sudah ada di Voice Channel
+        if (!this.msg.member.voice.channel) return this.msg.channel.send(`${this.msg.author}***You Need to Join to The Voice Channel First Before Running This Commands!***`);
+        const players = this.msg.client.pManager.get(this.guild);
+
+        if(!players) return this.msg.channel.send("Ahh.... Theirs nothing that currently Playing!");
+        if(!this.vol) return this.msg.channel.send(`To Set Volume Please Type !!volume [Volume Number]`);
+
+        if(this.vol < 10) return this.msg.channel.send("**Please Use Mute Instead!**");
+        if(this.vol > 250) return this.msg.channel.send("**Please Keep Your Ear Save :)**");
+
+        //Set Player Volume
+        players.player.setVolume(this.vol / 100).then(vol => {
+           return this.msg.channel.send(`***Successfully Set Volume to ${vol.filters.volume * 100}%***`).then(c => c.delete({timeout:15000}))
+        });
+
+    }
 }
 module.exports = summerPlayerControls
