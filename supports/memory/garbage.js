@@ -3,26 +3,21 @@
  * Dev:NatsuX
  */
 //Import Stuff
-const memtrace = require('mtrace');
-const process = require("process");
 const clr = require("chalk");
 
-async function startTrace() {
-    if(process.platform === "linux") {
-        const fileLog = memtrace.mtrace();
-        if (fileLog) {
-            console.log("Tracing for Memory Leak!");
+function startTrace() {
+        SceduleGC();
+
+        function SceduleGC() {
+            let randomTime = Math.random() * 15 + 20
+            setTimeout(() => {
+                try{
+                    global.gc()
+                    SceduleGC();
+                } catch (e) {
+                    console.log(clr.red("Cannot Run Garbage Collection!,Make Sure You Run NodeJS With --expose-gc Flags!"));
+                }
+            }, randomTime * 60 * 1000);
         }
-    } else if(process.platform === "win32") {
-        const memoryInfo = process.memoryUsage();
-        if(memoryInfo.rss > 225443840) {
-            console.log(clr.yellow("Memory Leak!, Cleaning Memory"));
-            try {
-                await global.gc();
-            } catch (e) {
-                console.log(clr.red("Cannot Run Memory Cleaner, Make Sure You Run Nodejs with --expose-gc Flag!"));
-            }
-        }
-    }
 }
 module.exports = startTrace

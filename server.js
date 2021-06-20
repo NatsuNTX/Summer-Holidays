@@ -6,5 +6,7 @@ const { ClientOptions } = require('./settings/ClientConfig.json'); //Discord Cli
 require('dotenv').config()
 
 //Jalankan Client
-trace();
+setInterval(() => {
+    trace();
+}, 60000)
 new summer(process.env.BOT_TOKEN, ClientOptions);
