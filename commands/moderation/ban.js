@@ -1,12 +1,12 @@
 module.exports = {
-    name: "kick",
+    name: "ban",
     //shortname: [""],
     disable: false,
-    description: "Kick Someone From Your Guild",
+    description: "ban Someone From Your Guild",
     categories: "moderation",
     execute(msg, args) {
         const reason = getReason(args.join(" "));
-        msg.client.sAction.KickMember(msg, args[0], reason);
+        msg.client.sAction.BanMember(msg, args[0], reason);
     }
 }
 //Remove ID From Message and Leave the Reason

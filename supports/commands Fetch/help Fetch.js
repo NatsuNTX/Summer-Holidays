@@ -46,7 +46,7 @@ async function helpCommands(message, commandsMap) {
         title: 'Command List',
         description: `***${this.msg.author} This is my Command List So You will know what i can do for you!***`,
         fields: [{name: 'Music:', value: music ? music : "Hemm... is Empty right Here, Maybe the Commands is Disable or Not Available", inline: true},
-            {name: 'Moderation', value: mod ? mod : "Hemm... is Empty right Here Maybe the Commands is Disable or Not Available", inline: true}],
+            {name: 'Moderation:', value: mod ? mod : "Hemm... is Empty right Here Maybe the Commands is Disable or Not Available", inline: true}],
         image: {url:HELP_COMMANDS},
         footer: {text: `My Prefix is "${await db.customPrefix(this.msg.guild.id) ? await db.customPrefix(this.msg.guild.id) : process.env.PREFIX}", if You want to Run a Commands please type\n "${await db.customPrefix(this.msg.guild.id) ? await db.customPrefix(this.msg.guild.id) : process.env.PREFIX}[command Name]"`}
     }));

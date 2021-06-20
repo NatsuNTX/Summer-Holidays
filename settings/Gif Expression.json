@@ -7,5 +7,7 @@
   "DONT_HAVE_PERMISSION": "https://media1.tenor.com/images/3f10d4ba54de4302c1ea37ce0b272d40/tenor.gif?itemid=8620723",
   "SUCCESSFULLY_KICK": "https://media1.tenor.com/images/94e2fc5b5037691c037ffc6defeab021/tenor.gif?itemid=19321409",
   "KICK_FAILED": "https://media1.tenor.com/images/014cc765bc0269f1269af7a95fdf5f09/tenor.gif?itemid=10636834",
-  "CANT_FIND_USER": "https://media1.tenor.com/images/9ee2dced07285dadf4f1c9b21c13b881/tenor.gif?itemid=16875003"
+  "CANT_FIND_USER": "https://media1.tenor.com/images/9ee2dced07285dadf4f1c9b21c13b881/tenor.gif?itemid=16875003",
+  "SUCCESSFULLY_BAN": "https://media1.tenor.com/images/c0382f28108a03147aa1a1113c327626/tenor.gif?itemid=17464141",
+  "BAN_FAILED": "https://media1.tenor.com/images/42e7db3262c29ae92aa60c5e34b98859/tenor.gif?itemid=21580413"
 }

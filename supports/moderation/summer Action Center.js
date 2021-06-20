@@ -8,7 +8,9 @@ const {
     DONT_HAVE_PERMISSION,
     SUCCESSFULLY_KICK,
     KICK_FAILED,
-    CANT_FIND_USER
+    CANT_FIND_USER,
+    SUCCESSFULLY_BAN,
+    BAN_FAILED
 } = require('../../settings/Gif Expression.json');
 const clr = require('chalk');
 
@@ -57,7 +59,7 @@ class summerActionCenter {
         this.guild = this.msg.guild;
 
         //Check if it is an admin or Guild Owner
-        if (!this.msg.member.hasPermission("KICK_MEMBERS") && this.msg.author.id !== this.msg.guild.owner.id) {
+        if (!this.msg.member.hasPermission("KICK_MEMBERS") && this.msg.author.id !== this.guild.owner.id) {
             return this.msg.channel.send(new sEmbed({
                 title: 'Access Denied!',
                 description: `${this.msg.author} You... Don't Have Permission To Use that Commands!`,
@@ -69,12 +71,12 @@ class summerActionCenter {
             return this.msg.channel.send(new sEmbed({
                 title: "Kick Commands",
                 description: "Kick Someone from Your Guild!",
-                fields: [{name: "How To Use", value: `!!kick [mention] [Reason]`}]
+                fields: [{name: "How To Use", value: `***!!kick [mention] [Reason]***`}]
             }));
         }
 
         //Find the User from Cache
-        function findTheUser(userID, message) {
+        function findTheUser(userID, Guild) {
             let theID = "";
             if (userID.startsWith("<@!") && userID.endsWith(">")) {
                 theID = userID.slice(3, -1);
@@ -82,10 +84,10 @@ class summerActionCenter {
             if (userID.startsWith("<@&") && userID.endsWith(">")) {
                 theID = userID.slice(3, -1);
             }
-            return message.guild.members.cache.get(theID);
+            return Guild.members.cache.get(theID);
         }
 
-        const kickUser = findTheUser(KickUser, this.msg);
+        const kickUser = findTheUser(KickUser, this.guild);
         //If Summer Can't Find the User From Guild
         if (!kickUser) {
             return this.msg.channel.send(new sEmbed({
@@ -98,7 +100,7 @@ class summerActionCenter {
         if (kickUser.kickable) {
             kickUser.kick(Reason ? Reason : "No Reason is Specified").then(usr => {
                 return this.msg.channel.send(new sEmbed({
-                    title: "Kick",
+                    title: `[Kick] Successfully Kick ${usr.user.username} from ${this.msg.guild.name}`,
                     description: `Successfully Kick ${usr.user.username} from ${this.msg.guild.name}`,
                     fields: [{name: "Username:", value: `${usr.user.username}`},
                         {name: "Reason:", value: Reason ? Reason : "No Reason is Specified"},
@@ -108,12 +110,81 @@ class summerActionCenter {
             });
         } else {
             return this.msg.channel.send(new sEmbed({
-                title: "Kick Failed",
-                description: "Sorry I can't Kick that User!,Make sure he/she is not an Admin!",
+                title: "[KICK] Failed",
+                description: "***Sorry I can't Kick that User!,Make sure he/she is not an Admin!***",
                 image: {url: KICK_FAILED}
             }));
         }
 
+    }
+
+    /**
+     *
+     * @param message Discord Message Module
+     * @param BanUser Use to Ban
+     * @param Reason The Reason u Want to Ban him
+     * @constructor
+     */
+    BanMember(message, BanUser, Reason) {
+        this.msg = message;
+        this.guild = this.msg.guild;
+
+        //Check for Permission First
+        if (!this.msg.member.hasPermission("BAN_MEMBERS") && this.msg.author.id !== this.guild.owner.id) {
+            return this.msg.channel.send(new sEmbed({
+                title: 'Access Denied!',
+                description: `${this.msg.author} You... Don't Have Permission To Use that Commands!`,
+                image: {url: DONT_HAVE_PERMISSION}
+            }));
+        }
+        //No User its Mentions
+        if (!BanUser) {
+            return this.msg.channel.send(new sEmbed({
+                title: "Ban Commands",
+                description: "Ban Someone from Your Guild!",
+                fields: [{name: "How To Use", value: `***!!ban [mention] [Reason]***`}]
+            }));
+        }
+        //Find the User From Guild Cache
+        function findTheUser(userID, Guild) {
+            let theID = "";
+            if (userID.startsWith("<@!") && userID.endsWith(">")) {
+                theID = userID.slice(3, -1);
+            }
+            if (userID.startsWith("<@&") && userID.endsWith(">")) {
+                theID = userID.slice(3, -1);
+            }
+            return Guild.members.cache.get(theID);
+        }
+        let banUser = findTheUser(BanUser, this.guild);
+        //Check if The User is in the Guild
+        if(!banUser) {
+            return this.msg.channel.send(new sEmbed({
+                title:"[BAN] Can't Find the User!",
+                description: "***Sorry..., I Can't Find the User You Are Looking For***",
+                image: {url:CANT_FIND_USER}
+            }));
+        }
+        //Check if Summer Able to Ban the User
+        switch (banUser.bannable) {
+            case true:
+                banUser.ban({reason: `${Reason ? Reason : "No Reason is Specified!"}`}).then(ban => {
+                    return this.msg.channel.send(new sEmbed({
+                        title: `[Ban] Successfully ban ${ban.user.username} from ${this.guild.name}`,
+                        description: `***Successfully ban ${ban.user.username} from ${this.guild.name}***`,
+                        fields:[{name:"Username:", value: `***${ban.user.username}#${ban.user.discriminator}***`},
+                            {name:"Reason:", value: `***${Reason ? Reason : "Reason is Not Specified!"}***`}],
+                        image:{url:SUCCESSFULLY_BAN}
+                    }));
+                });
+                break
+            case false:
+                return this.msg.channel.send(new sEmbed({
+                    title: "[BAN] Failed",
+                    description: `***Cannot Ban ${banUser.user.username} Make Sure he/she is Not admin or the Owner it self!***`,
+                    image:{url:BAN_FAILED}
+                })).then(b => b.delete({timeout:26000}));
+        }
     }
 }
 
