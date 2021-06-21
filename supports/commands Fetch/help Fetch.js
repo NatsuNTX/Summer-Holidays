@@ -8,10 +8,6 @@ async function helpCommands(message, commandsMap) {
     this.msg = message;
     this.cmdMaps = commandsMap;
 
-    /* Temp */
-    let musicCommands = [];
-    let modCommands = [];
-
     /* Yang Akan di tampilkan di Embed */
     let music = '';
     let mod = '';
@@ -22,26 +18,28 @@ async function helpCommands(message, commandsMap) {
 
     //Sekarang Kita akan Loop untuk mencari categori di setiap commands
     for (let cmd of cmdOnMap) {
-        //Masukan data command nya ke dalam array yang sudah di buat sesuai dengan
-        //kategori nya (if you know what i mean)
+        //Rewrite: Cari command sesuai dengan kategori nya lalu masukan ke dalam variable
+        //Untuk di tampilkan ke dalam Embed (Sehingga Hanya Perlu Menggunakan 1 loop)
 
-        /* Music Commands Loop */
-        if(cmd.categories === 'music') {
-            musicCommands.push(cmd.name)
+        if(cmd.categories === "music") {
+            music += `${cmd.name}\n`
         }
-        /* Moderation Commands Loop */
-        if(cmd.categories === 'moderation') {
-            modCommands.push(cmd.name);
+        if(cmd.categories === "moderation") {
+            mod += `${cmd.name}\n`
         }
     }
-    /* Music Commands Loop */
+
+    /* Not Use
+    /* Music Commands Loop
     for(let i = 0; i < musicCommands.length; i++) {
         music += `${musicCommands[i]}\n`
     }
-    /* Moderation Commands Loop */
+    /* Moderation Commands Loop
     for(let i = 0; i < modCommands.length; i++) {
         mod += `${modCommands[i]}\n`
     }
+    */
+
     await this.msg.channel.send(new sEmbed({
         title: 'Command List',
         description: `***${this.msg.author} This is my Command List So You will know what i can do for you!***`,
