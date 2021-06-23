@@ -2,7 +2,7 @@
  * Tempat Di Mana Semua Command Musik melakukan
  * proses
  * If You want to Edit Please Read the Doc first from this link
- * https://deivu.github.io/Shoukaku/?api#Shoukaku
+ * https://deivu.github.io/Shoukaku/?api#ShoukakuPlayer
  */
 
 const sEmbed = require('../../embed/embed Files');

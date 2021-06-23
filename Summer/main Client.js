@@ -9,6 +9,7 @@ const summerPlayerNode = require('../supports/Music Player/PlayerNodes');
 const summerPlayerManager = require('../supports/Music Player/Player Manager');
 const summerPlayerControls = require('../supports/Music Player/Controls/Player Controls');
 const summerActionCenter = require('../supports/moderation/summer Action Center');
+const summerPlayerFilters = require('../supports/Music Player/filters/Player Filters');
 const {BotActivity} = require('./Activity/Summer Activity');
 const {Server1, serverOptions} = require('../settings/Music Server.json');
 
@@ -37,6 +38,7 @@ class Summer extends Client {
         /* Lavalink Server */
         this.pManager = new summerPlayerManager(this);
         this.pControls = new summerPlayerControls(this);
+        this.pFilters = new summerPlayerFilters();
         this.playerNode = new summerPlayerNode(this, Server1, serverOptions);
     }
 }
