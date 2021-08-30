@@ -1,6 +1,6 @@
 # Summer-Holidays
 
-![Build Process](https://img.shields.io/badge/build-process-green)
+**UPDATE:** Abandoned due to API changes from discord.
 
 ## Name
 Our bot name is Summer Holidays
